@@ -2,7 +2,9 @@ import Register from "./containers/register/Register";
 
 function App() {
   return (
-    <Register />
+    <>
+      <Register />
+    </>
   );
 }
 
