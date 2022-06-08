@@ -1,9 +1,9 @@
-import Register from "./containers/register/Register";
+import Home from "./Home";
 
 function App() {
   return (
     <>
-      <Register />
+      <Home />
     </>
   );
 }
