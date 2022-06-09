@@ -1,4 +1,5 @@
 export const API_URL = (() => {
+    console.log(process.env.NODE_ENV)
     if (process.env.NODE_ENV === 'production') {
         return process.env.REACT_APP_PROD_API_URL;
     } else {
