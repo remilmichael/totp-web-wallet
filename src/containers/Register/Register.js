@@ -2,7 +2,7 @@ import Form from "./Form";
 import React, { useState } from "react";
 import CryptoJs from "crypto-js";
 import axios from "axios";
-import { BASE_URL, rfc5054 } from "../../env";
+import { API_URL, rfc5054 } from "../../constants";
 
 function Register() {
 
@@ -17,7 +17,7 @@ function Register() {
         // error
     } else {
 
-        const response = await axios.get(`${BASE_URL}/check-username?email=${email}`)
+        const response = await axios.get(`${API_URL}/authentication/check-username?email=${email}`)
         if (!response) {
           //failed
         } else if (response.data.userExist) {
@@ -25,7 +25,7 @@ function Register() {
         } else {
           const credentialsObj = generateCredentials();
           console.log(credentialsObj)
-            axios.post(`${BASE_URL}/register`, credentialsObj)
+            axios.post(`${API_URL}/authentication/register`, credentialsObj)
               .then(response => {
                 console.log(response);
               })
