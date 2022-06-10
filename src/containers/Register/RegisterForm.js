@@ -1,6 +1,6 @@
 import React from "react";
 
-function Form(props) {
+function RegisterForm(props) {
   // destructure
   const {
     emailInputHandler,
@@ -41,4 +41,4 @@ function Form(props) {
   );
 }
 
-export default Form;
+export default RegisterForm;

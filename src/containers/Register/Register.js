@@ -1,4 +1,4 @@
-import Form from "./Form";
+import Form from "./RegisterForm";
 import React, { useState } from "react";
 import CryptoJs from "crypto-js";
 import axios from "axios";

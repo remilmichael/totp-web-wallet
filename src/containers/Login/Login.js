@@ -1,12 +1,18 @@
-import {API_URL} from '../../constants'
+import React from "react";
+import LoginForm from "./LoginForm";
 
 function Login() {
-    console.log(API_URL)
-    return (
-        <>
-            <p>Login page</p>
-        </>
-    )
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  return (
+    <>
+      <LoginForm
+        emailInputHandler={(email) => setEmail(email)}
+        passwordInputHandler={(password) => setPassword(password)}
+      />
+    </>
+  );
 }
 
 export default Login;
