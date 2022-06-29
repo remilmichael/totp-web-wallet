@@ -2,11 +2,13 @@ function LoginForm(props) {
 
     const {
         emailInputHandler,
-        passwordInputHandler
+        passwordInputHandler,
+        formSubmitHandler
     } = props;
 
   function submitForm(e) {
     e.preventDefault();
+    formSubmitHandler();
   }
 
   return (
