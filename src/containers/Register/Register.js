@@ -17,7 +17,7 @@ function Register() {
         // error
     } else {
 
-        const response = await axios.get(`${API_URL}/auth/check-username?email=${email}`)
+        const response = await axios.get(`${API_URL}/check-username?email=${email}`)
         if (!response) {
           //failed
         } else if (response.data.userExist) {
@@ -25,7 +25,7 @@ function Register() {
         } else {
           const credentialsObj = generateCredentials();
           console.log(credentialsObj)
-            axios.post(`${API_URL}/auth/register`, credentialsObj)
+            axios.post(`${API_URL}/register`, credentialsObj)
               .then(response => {
                 console.log(response);
               })

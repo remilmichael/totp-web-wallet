@@ -67,3 +67,28 @@ a {
     background: #6c53e0;
     color: #fff;
 }
+
+.login_alert {
+    margin-top: 1rem;
+    width: 80%;
+    font-size: 0.8rem;
+}
+
+@media(max-width: 767.98px) {
+    .login_sign_wrap {
+        position: relative;
+        transform: inherit;
+        left: 0;
+        top: 0;
+        margin: 30px 5%;
+        width: 90%;
+    }
+
+    .login_sign_logo {
+        width: 160px;
+    }
+
+    .copy {
+        position: inherit;
+    }
+}

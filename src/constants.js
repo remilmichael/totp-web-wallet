@@ -1,5 +1,6 @@
+import axios from "axios";
+
 export const API_URL = (() => {
-    console.log(process.env.NODE_ENV)
     if (process.env.NODE_ENV === 'production') {
         return process.env.REACT_APP_PROD_API_URL;
     } else {
@@ -12,3 +13,7 @@ export const rfc5054 = {
     g_base10: "2", 
     k_base16: "5b9e8ef059c6b32ea59fc1d322d37f04aa30bae5aa9003b8321e21ddb04e300"
 }
+
+export const instance = axios.create({
+    baseURL: API_URL
+})

@@ -1,7 +1,7 @@
-import axios from "axios";
+import { instance, rfc5054 } from "../../constants";
 import React from "react";
+import { initialState, loginActions, reducer } from './reducer'
 import LoginForm from "./LoginForm";
-import { API_URL, rfc5054 } from "../../constants";
 
 const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
   rfc5054.N_base10,
@@ -10,50 +10,82 @@ const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
 );
 
 function Login() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
 
-  const formSubmitHandler = async () => {
-    const serverChallenge = await fetchUserSalt();
-    if (!serverChallenge) {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const formSubmitHandler = () => {
+    if (!state.email) {
+      dispatch({ type: 'error', payload: "Email appears to be invalid!" });
+    } else if (!state.password) {
+      dispatch({ type: 'error', payload: "Password appears to be empty!" });
     } else {
+      dispatch({ type: loginActions.LOGIN_INIT });
+      performLogin();
+    }
+  };
+
+  const fetchAuthCredentials = async (A, M1) => {
+    return instance
+        .post(
+          "/login",
+          {
+            email: state.email,
+            a: A,
+            m1: M1,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          return response.data;
+        })
+        .catch((err) => {
+          dispatch({ type: loginActions.LOGIN_FAILED, payload: err.response.data.message });
+        });
+  }
+
+  const performLogin = async () => {
+    const serverChallenge = await fetchUserSalt();
+    if (serverChallenge) {
       const { salt, b } = serverChallenge;
       const client = new SRP6JavascriptClientSession();
-      client.step1(email, password);
+      client.step1(state.email, state.password);
       const { A, M1 } = client.step2(salt, b);
-      
-
-      axios.post(`${API_URL}/login`, {
-        email: email,
-        a: A,
-        m1: M1
-      }, {
-        withCredentials: true
-      })
-      .then((response) => {
-        console.log(response.data)
-      })
-      .catch(err => {
-        console.log(err.response.data.message)
-      })
+      const credential = await fetchAuthCredentials(A, M1);
+      if (credential.access_token) {
+        console.log(credential)
+      }
     }
   };
 
   const fetchUserSalt = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/salt?email=${email}`);
-      return response.data;
-    } catch (err) {
-      console.log(err);
-    }
+    return instance
+      .get(`/salt?email=${state.email}`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((err) => {
+        if (err.response && err.response.data && err.response.data.message) {
+          dispatch({ type: loginActions.LOGIN_FAILED, payload: err.response.data.message });
+        } else {
+          dispatch({ type: loginActions.LOGIN_FAILED, payload: "Something went wrong!" });
+        }
+      });
   };
 
   return (
     <>
       <LoginForm
-        emailInputHandler={(email) => setEmail(email)}
-        passwordInputHandler={(password) => setPassword(password)}
+        emailInputHandler={(email) => {
+          dispatch({ type: 'set_email', payload: email });
+        }}
+        passwordInputHandler={(password) => {
+          dispatch({ type: 'set_password', payload: password });
+        }}
         formSubmitHandler={formSubmitHandler}
+        error={state.error}
+        status={state.status}
       />
     </>
   );

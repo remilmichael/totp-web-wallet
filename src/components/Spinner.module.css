@@ -1,9 +1,21 @@
+.spinner_modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0);
+  z-index: 99;
+}
+.spinner_container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
 .lds_spinner {
     color: red;
     display: inline-block;
     position: relative;
     width: 80px;
     height: 80px;
+    z-index: 100;
   }
   .lds_spinner div {
     transform-origin: 40px 40px;
@@ -18,7 +30,7 @@
     width: 6px;
     height: 18px;
     border-radius: 20%;
-    background: black;
+    background: #412aa9;
   }
   .lds_spinner div:nth-child(1) {
     transform: rotate(0deg);
