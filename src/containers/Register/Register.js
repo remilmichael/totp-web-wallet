@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import CryptoJs from "crypto-js";
 import axios from "axios";
 import { API_URL, rfc5054 } from "../../constants";
+import { useSelector } from "react-redux";
 
 function Register() {
+
+  const state = useSelector((state) => state.credential);
+  console.log(state)
 
   const SRP6JavascriptClientSession  = require('thinbus-srp/browser')(rfc5054.N_base10, rfc5054.g_base10, rfc5054.k_base16);
 

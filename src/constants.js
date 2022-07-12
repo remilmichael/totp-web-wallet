@@ -17,3 +17,5 @@ export const rfc5054 = {
 export const instance = axios.create({
     baseURL: API_URL
 })
+
+export const AUTH_TOKEN_NAME = 'authTokenValidity';
