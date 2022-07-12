@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.css";
-import LoginImage from "./assets/login.svg";
+import LoginImage from "../../assets/login.svg";
 import Logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
@@ -53,7 +53,7 @@ function LoginForm(props) {
                   onChange={(e) => passwordInputHandler(e.target.value)}
                 />
                 <div className="login_cf"></div>
-                {error !== "" ? (
+                {error ? (
                   <div
                     className="mx-auto alert alert-danger login_alert"
                     role="alert"

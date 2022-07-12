@@ -45,10 +45,18 @@ function Login() {
         return response.data;
       })
       .catch((err) => {
-        dispatch({
-          type: loginActions.LOGIN_FAILED,
-          payload: err.response.data.message,
-        });
+
+        if (err.response && err.response.data && err.response.data.message) {
+          dispatch({
+            type: loginActions.LOGIN_FAILED,
+            payload: err.response.data.message,
+          });
+        } else {
+          dispatch({
+            type: loginActions.LOGIN_FAILED,
+            payload: "Login failed. Something went wrong!",
+          });
+        }
       });
   };
 

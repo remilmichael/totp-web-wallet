@@ -3,6 +3,7 @@ import Home from "./Home";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
 import Dashboard from "./containers/Dashboard/Dashboard";
+import "./App.css";
 
 function App() {
   return (
