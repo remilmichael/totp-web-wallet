@@ -5,16 +5,14 @@ import { instance, rfc5054 } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-
 export const registerStatus = {
-  REGISTER_IDLE: 'REGISTER_IDLE',
-  REGISTER_INIT: 'REGISTER_INIT',
-  REGISTER_FAILED: 'REGISTER_FAILED',
-  REGISTER_SUCCESS: 'REGISTER_SUCCESS'
-}
+  REGISTER_IDLE: "REGISTER_IDLE",
+  REGISTER_INIT: "REGISTER_INIT",
+  REGISTER_FAILED: "REGISTER_FAILED",
+  REGISTER_SUCCESS: "REGISTER_SUCCESS",
+};
 
 function Register() {
-
   const navigate = useNavigate();
 
   const credential = useSelector((state) => state.credential);
@@ -24,8 +22,6 @@ function Register() {
       navigate("/dashboard");
     }
   }, [credential.encKey, navigate]);
-
- 
 
   const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
     rfc5054.N_base10,
@@ -39,29 +35,60 @@ function Register() {
   const [error, setError] = useState("");
   const [status, setStatus] = useState(registerStatus.REGISTER_IDLE);
 
+  const validateInput = () => {
+    const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!email.match(regexEmail)) {
+      return "Email is not valid!";
+    } else if (password !== confirmPass) {
+      return "Passwords does not match!"
+    } else if (password.length < 8) {
+      return "Password must be at least 8 character!"
+    }
+
+    return null;
+  };
+
+  const resetStates = () => {
+    setEmail("");
+    setPassword("");
+    setConfirmPass("");
+  };
+
   const formSubmitHandler = async () => {
-    if (password !== confirmPass) {
-      setError("Passwords don't match");
+    setStatus(registerStatus.REGISTER_IDLE);
+    const errorMessage = validateInput();
+    if (errorMessage) {
+      setError(errorMessage);
     } else {
-      setStatus(registerStatus.REGISTER_INIT)
+      setStatus(registerStatus.REGISTER_INIT);
       const response = await instance.get(`/check-username?email=${email}`);
       if (!response) {
         setError("Something went wrong");
-        setStatus(registerStatus.REGISTER_FAILED)
+        setStatus(registerStatus.REGISTER_FAILED);
       } else if (response.data.userExist) {
         setError("Email already exists");
-        setStatus(registerStatus.REGISTER_FAILED)
+        setStatus(registerStatus.REGISTER_FAILED);
       } else {
         const credentialsObj = generateCredentials();
-        instance.post(`/register`, credentialsObj).then((response) => {
-          setStatus(registerStatus.REGISTER_SUCCESS)
-        })
-        .catch(err => {
-          if (err.response && err.response.data && err.response.data.message) {
-            setStatus(registerStatus.REGISTER_FAILED)
-            setError("Registration failed. Something went wrong!");
-          }
-        })
+        instance
+          .post(`/register`, credentialsObj)
+          .then((response) => {
+            setError("")
+            setStatus(registerStatus.REGISTER_SUCCESS);
+            resetStates();
+          })
+          .catch((err) => {
+            if (
+              err.response &&
+              err.response.data &&
+              err.response.data.message
+            ) {
+              setStatus(registerStatus.REGISTER_FAILED);
+              setError("Registration failed. Something went wrong!");
+              resetStates();
+            }
+          });
       }
     }
   };
