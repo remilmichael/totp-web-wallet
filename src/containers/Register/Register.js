@@ -65,8 +65,7 @@ function Register() {
       }
     );
     const encryptedKey = CryptoJs.AES.encrypt(key256Bits.toString(), password);
-    const hmac = CryptoJs.HmacSHA256(encryptedKey, email + password); // add salt later
-    console.log(hmac);
+    const hmac = CryptoJs.HmacSHA256(encryptedKey.toString(), email + password); // add salt later
     const finalKey = hmac.toString() + encryptedKey.toString();
 
     const client = new SRP6JavascriptClientSession();
