@@ -39,6 +39,14 @@ function RegisterForm(props) {
                   <img src={Logo} alt="logo" />
                 </figure>
                 <h2 className="text-center">Register Account</h2>
+                {error ? (
+                  <div
+                    className="mx-auto alert alert-danger login_alert text-center"
+                    role="alert"
+                  >
+                    {error}
+                  </div>
+                ) : null}
                 <input
                   type="email"
                   id="email"
@@ -61,14 +69,6 @@ function RegisterForm(props) {
                   onChange={(e) => confirmPassHandler(e.target.value)}
                 />
                 <div className="login_cf"></div>
-                {error ? (
-                  <div
-                    className="mx-auto alert alert-danger login_alert"
-                    role="alert"
-                  >
-                    {error}
-                  </div>
-                ) : null}
                 {status === registerStatus.REGISTER_SUCCESS ? (
                   <div
                     className="mx-auto alert alert-success login_alert"

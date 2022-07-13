@@ -39,7 +39,7 @@ function Register() {
     const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
     if (!email.match(regexEmail)) {
-      return "Email is not valid!";
+      return "Invalid email address!";
     } else if (password !== confirmPass) {
       return "Passwords does not match!"
     } else if (password.length < 8) {

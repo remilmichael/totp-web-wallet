@@ -38,6 +38,14 @@ function LoginForm(props) {
                   <img src={Logo} alt="logo" />
                 </figure>
                 <h2 className="text-center">Login Account</h2>
+                {error ? (
+                  <div
+                    className="mx-auto alert alert-danger login_alert text-center"
+                    role="alert"
+                  >
+                    {error}
+                  </div>
+                ) : null}
                 <input
                   type="email"
                   id="email"
@@ -53,14 +61,6 @@ function LoginForm(props) {
                   onChange={(e) => passwordInputHandler(e.target.value)}
                 />
                 <div className="login_cf"></div>
-                {error ? (
-                  <div
-                    className="mx-auto alert alert-danger login_alert"
-                    role="alert"
-                  >
-                    {error}
-                  </div>
-                ) : null}
                 <input
                   type="button"
                   value="Login"
