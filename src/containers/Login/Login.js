@@ -1,5 +1,6 @@
 import { instance, rfc5054 } from "../../constants";
 import React from "react";
+import CryptoJs from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { initialState, loginActions, reducer } from "./reducer";
 import LoginForm from "./LoginForm";
@@ -45,7 +46,6 @@ function Login() {
         return response.data;
       })
       .catch((err) => {
-
         if (err.response && err.response.data && err.response.data.message) {
           dispatch({
             type: loginActions.LOGIN_FAILED,
@@ -71,16 +71,24 @@ function Login() {
       if (credential.access_token) {
         const data = await fetchEncryptionKey();
         if (data.encKey) {
-          // LOGIN_SUCCESSFUL
-          dispatch({ type: loginActions.LOGIN_SUCCESS });
-          reduxDispatch(
-            saveCredential({
-              email: state.email,
-              encKey: data.encKey,
-              expiry: credential.token_expiry,
-            })
-          );
-          navigate("/dashboard");
+          const key = decryptKey(data.encKey);
+          if (key) {
+            // LOGIN_SUCCESSFUL
+            dispatch({ type: loginActions.LOGIN_SUCCESS });
+            reduxDispatch(
+              saveCredential({
+                email: state.email,
+                encKey: key,
+                expiry: credential.token_expiry,
+              })
+            );
+            navigate("/dashboard");
+          } else {
+            dispatch({
+              type: loginActions.LOGIN_FAILED,
+              payload: "Critical error: Key tampered!!!",
+            });
+          }
         }
       }
     }
@@ -107,6 +115,24 @@ function Login() {
           });
         }
       });
+  };
+
+  const decryptKey = (encKey) => {
+    const hmac = encKey.substring(0, 64);
+    const encryptedKey = encKey.substring(64, encKey.length);
+    const computedHmac = CryptoJs.HmacSHA256(
+      encryptedKey,
+      state.email + state.password
+    );
+    if (computedHmac.toString() === hmac) {
+      const secretKey = CryptoJs.AES.decrypt(
+        encryptedKey,
+        state.password
+      ).toString(CryptoJs.enc.Utf8);
+      return secretKey;
+    } else {
+      return null;
+    }
   };
 
   const fetchUserSalt = async () => {
