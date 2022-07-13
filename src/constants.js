@@ -21,9 +21,11 @@ export const instance = axios.create({
 export const AUTH_TOKEN_NAME = 'authTokenValidity';
 export const TEMP_DECRYPT_KEY = 'tempDecryptKey';
 export const DECRYPT_KEY_ID = 'decryptKeyId';
+export const USERNAME = 'email';
 
 export function clearLocalStorage() {
     localStorage.removeItem(AUTH_TOKEN_NAME);
     localStorage.removeItem(TEMP_DECRYPT_KEY);
     localStorage.removeItem(DECRYPT_KEY_ID);
+    localStorage.removeItem(USERNAME);
 }

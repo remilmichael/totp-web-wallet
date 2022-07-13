@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Form from "./RegisterForm";
 import CryptoJs from "crypto-js";
 import { instance, rfc5054 } from "../../constants";
-// import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 export const registerStatus = {
@@ -13,8 +14,18 @@ export const registerStatus = {
 }
 
 function Register() {
-  // const state = useSelector((state) => state.credential);
-  // console.log(state);
+
+  const navigate = useNavigate();
+
+  const credential = useSelector((state) => state.credential);
+
+  React.useEffect(() => {
+    if (credential.encKey) {
+      navigate("/dashboard");
+    }
+  }, [credential.encKey, navigate]);
+
+ 
 
   const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
     rfc5054.N_base10,

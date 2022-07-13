@@ -4,7 +4,7 @@ import CryptoJs from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { initialState, loginActions, reducer } from "./reducer";
 import LoginForm from "./LoginForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveCredential } from "../../reducers/credential";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,6 +19,14 @@ function Login() {
 
   const reduxDispatch = useDispatch();
   const navigate = useNavigate();
+
+  const credential = useSelector((state) => state.credential);
+
+  React.useEffect(() => {
+    if (credential.encKey) {
+      navigate("/dashboard");
+    }
+  }, [credential.encKey, navigate]);
 
   const formSubmitHandler = () => {
     if (!state.email) {
