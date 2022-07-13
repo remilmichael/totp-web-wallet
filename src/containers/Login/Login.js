@@ -6,6 +6,7 @@ import { initialState, loginActions, reducer } from "./reducer";
 import LoginForm from "./LoginForm";
 import { useDispatch } from "react-redux";
 import { saveCredential } from "../../reducers/credential";
+import { v4 as uuidv4 } from "uuid";
 
 const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
   rfc5054.N_base10,
@@ -15,6 +16,7 @@ const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
 
 function Login() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+
   const reduxDispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,16 +75,21 @@ function Login() {
         if (data.encKey) {
           const key = decryptKey(data.encKey);
           if (key) {
-            // LOGIN_SUCCESSFUL
-            dispatch({ type: loginActions.LOGIN_SUCCESS });
-            reduxDispatch(
-              saveCredential({
-                email: state.email,
-                encKey: key,
-                expiry: credential.token_expiry,
-              })
-            );
-            navigate("/dashboard");
+            const resp = await createAutoLoginKey(key, credential.token_expiry);
+            if (resp) {
+              // LOGIN_SUCCESSFUL
+              dispatch({ type: loginActions.LOGIN_SUCCESS });
+              reduxDispatch(
+                saveCredential({
+                  email: state.email,
+                  encKey: key,
+                  expiry: credential.token_expiry,
+                  decKey: resp.newDecKey,
+                  uuid: resp.uuid
+                })
+              );
+              navigate("/dashboard");
+            }
           } else {
             dispatch({
               type: loginActions.LOGIN_FAILED,
@@ -134,6 +141,56 @@ function Login() {
       return null;
     }
   };
+
+  const createAutoLoginKey = async (mainKey, expiry) => {
+    const salt = CryptoJs.lib.WordArray.random(128 / 8);
+    const key = CryptoJs.PBKDF2(
+      state.username + state.password + new Date().getTime(),
+      salt,
+      {
+        keySize: 256 / 32,
+      }
+    );
+    const newEncryptedKey = CryptoJs.AES.encrypt(mainKey, key.toString());
+    const hmac = CryptoJs.HmacSHA256(
+      newEncryptedKey.toString(),
+      key.toString()
+    );
+    const keyWithHash = hmac.toString() + newEncryptedKey.toString();
+    const tableKey = uuidv4();
+
+    const newSessionObj = {
+      email: state.email,
+      encKey: keyWithHash,
+      expiry: expiry * 1000,
+      uuid: tableKey,
+    };
+
+    const resp = await postSessionKey(newSessionObj);
+    if (resp) {
+      return {
+        uuid: tableKey,
+        newDecKey: key.toString(),
+      }
+    } else {
+      return null;
+    }    
+  };
+
+
+  const postSessionKey = async(data) => {
+    return instance
+      .post("/autologin/create", data, { withCredentials: true })
+      .then((resp) => {
+        return resp;
+      })
+      .catch((err) => {
+        dispatch({
+          type: loginActions.LOGIN_FAILED,
+          payload: "Unable to create a session",
+        });
+      });
+  }
 
   const fetchUserSalt = async () => {
     return instance
