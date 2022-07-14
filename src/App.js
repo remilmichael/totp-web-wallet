@@ -19,6 +19,7 @@ import { updateCredential } from "./reducers/credential";
 import Spinner from "./components/Spinner";
 import NoMatchFound from "./NoMatch";
 import Logout from "./containers/Logout/Logout";
+import AddToken from "./containers/AddToken/AddToken";
 
 const status = {
   FETCH_IDLE: "FETCH_IDLE",
@@ -109,6 +110,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/dashboard/" element={<Dashboard />} />
+            <Route path="/addtoken" element={<AddToken />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />

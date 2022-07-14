@@ -26,7 +26,7 @@ function LoginForm(props) {
         <Spinner />
       ) : (
         <>
-          <div className="login_sign_wrap">
+          <div className="sign_wrap">
             <div className="row d-flex">
               <div className="col-sm-6 align-self-center">
                 <figure>
@@ -34,13 +34,13 @@ function LoginForm(props) {
                 </figure>
               </div>
               <div className="col-sm-6">
-                <figure className="login_sign_logo">
+                <figure className="sign_logo">
                   <img src={Logo} alt="logo" />
                 </figure>
                 <h2 className="text-center">Login Account</h2>
                 {error ? (
                   <div
-                    className="mx-auto alert alert-danger login_alert text-center"
+                    className="mx-auto alert alert-danger alert text-center"
                     role="alert"
                   >
                     {error}
@@ -49,22 +49,22 @@ function LoginForm(props) {
                 <input
                   type="email"
                   id="email"
-                  className="form-control login_form_control mb-3"
+                  className="form-control form_control mb-3"
                   placeholder="Email"
                   onChange={(e) => emailInputHandler(e.target.value)}
                 />
                 <input
                   type="password"
                   id="password"
-                  className="form-control login_form_control mb-2"
+                  className="form-control form_control mb-2"
                   placeholder="Password"
                   onChange={(e) => passwordInputHandler(e.target.value)}
                 />
-                <div className="login_cf"></div>
+                <div className="cf"></div>
                 <input
                   type="button"
                   value="Login"
-                  className="btn login_btn_theme"
+                  className="btn btn_theme"
                   onClick={(e) => submitForm(e)}
                 />
                 <hr />
