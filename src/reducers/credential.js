@@ -7,6 +7,7 @@ import {
 } from "../constants";
 
 const initialState = {
+  fetch: false,
   email: null,
   encKey: null,
 };
@@ -18,13 +19,14 @@ const credential = createSlice({
     saveCredential: (state, action) => {
       state.email = action.payload.email;
       state.encKey = action.payload.encKey;
-
+      state.fetch = true;
       localStorage.setItem(USERNAME, action.payload.email);
       localStorage.setItem(AUTH_TOKEN_NAME, action.payload.expiry);
       localStorage.setItem(TEMP_DECRYPT_KEY, action.payload.decKey);
       localStorage.setItem(DECRYPT_KEY_ID, action.payload.uuid);
     },
     updateCredential: (state, action) => {
+      state.fetch = true;
       state.email = action.payload.email;
       state.encKey = action.payload.encKey;
     }

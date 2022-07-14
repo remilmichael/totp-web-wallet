@@ -7,10 +7,10 @@ function Dashboard() {
   const credential = useSelector((state) => state.credential);
 
   React.useEffect(() => {
-    if (!credential.encKey) {
+    if (credential.fetch && !credential.encKey) {
       navigate("/");
     }
-  }, [credential.encKey, navigate]);
+  }, [credential.encKey, navigate, credential.fetch]);
 
   return (
     <>

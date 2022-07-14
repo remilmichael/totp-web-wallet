@@ -23,10 +23,10 @@ function Login() {
   const credential = useSelector((state) => state.credential);
 
   React.useEffect(() => {
-    if (credential.encKey) {
+    if (credential.fetch && credential.encKey) {
       navigate("/dashboard");
     }
-  }, [credential.encKey, navigate]);
+  }, [credential.encKey, navigate, credential.fetch]);
 
   const formSubmitHandler = () => {
     if (!state.email) {
@@ -64,7 +64,7 @@ function Login() {
         } else {
           dispatch({
             type: loginActions.LOGIN_FAILED,
-            payload: "Login failed. Something went wrong!",
+            payload: "Invalid credentials!",
           });
         }
       });

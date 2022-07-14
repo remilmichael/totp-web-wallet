@@ -18,10 +18,10 @@ function Register() {
   const credential = useSelector((state) => state.credential);
 
   React.useEffect(() => {
-    if (credential.encKey) {
+    if (credential.fetch && credential.encKey) {
       navigate("/dashboard");
     }
-  }, [credential.encKey, navigate]);
+  }, [credential.encKey, navigate, credential.fetch]);
 
   const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
     rfc5054.N_base10,
