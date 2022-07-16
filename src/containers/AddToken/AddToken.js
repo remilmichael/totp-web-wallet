@@ -6,6 +6,7 @@ import { v4 as uuidv4} from 'uuid'
 import { useSelector } from "react-redux";
 import CryptoJs from "crypto-js";
 import { useNavigate } from "react-router-dom";
+import { autologinFetchStatus } from "../../reducers/credential";
 
 function AddToken() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -13,7 +14,9 @@ function AddToken() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (credential.fetch && !credential.encKey) {
+    if (credential.fetch === autologinFetchStatus.FETCH_SUCCESS && !credential.encKey) {
+      navigate("/");
+    } else if (credential.fetch === autologinFetchStatus.FETCH_CLEAR) {
       navigate("/");
     }
   }, [credential.encKey, navigate, credential.fetch]);

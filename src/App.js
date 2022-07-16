@@ -15,7 +15,7 @@ import {
   TEMP_DECRYPT_KEY,
   USERNAME,
 } from "./constants";
-import { updateCredential } from "./reducers/credential";
+import { autologinFetchStatus, updateCredential, updateFetchStatus } from "./reducers/credential";
 import Spinner from "./components/Spinner";
 import NoMatchFound from "./NoMatch";
 import Logout from "./containers/Logout/Logout";
@@ -27,9 +27,7 @@ const status = {
 };
 
 function App() {
-
   const [fetchStatus, setFetchStatus] = React.useState(status.FETCH_IDLE);
-
   const reduxDispatch = useDispatch();
 
   const fetchKey = React.useCallback(
@@ -61,18 +59,34 @@ function App() {
                 })
               );
               setFetchStatus(status.FETCH_IDLE);
+              
             } else {
               // error - key tampered
               clearLocalStorage();
               setFetchStatus(status.FETCH_IDLE);
+              reduxDispatch(
+                updateFetchStatus({
+                  status: autologinFetchStatus.FETCH_CLEAR
+                })
+              )
             }
           } else {
             clearLocalStorage();
             setFetchStatus(status.FETCH_IDLE);
+            reduxDispatch(
+              updateFetchStatus({
+                status: autologinFetchStatus.FETCH_CLEAR
+              })
+            )
           }
         })
         .catch((err) => {
           setFetchStatus(status.FETCH_IDLE);
+          reduxDispatch(
+            updateFetchStatus({
+              status: autologinFetchStatus.FETCH_CLEAR
+            })
+          )
           console.log(err);
           clearLocalStorage();
         });
@@ -82,6 +96,11 @@ function App() {
 
   React.useEffect(() => {
     setFetchStatus(status.FETCH_RUNNING);
+    reduxDispatch(
+      updateFetchStatus({
+        status: autologinFetchStatus.FETCH_RUNNING
+      })
+    )
 
     const expiry = localStorage.getItem(AUTH_TOKEN_NAME);
     const tempDecryptKey = localStorage.getItem(TEMP_DECRYPT_KEY);
@@ -93,14 +112,24 @@ function App() {
       if (new Date() > expiryDt) {
         clearLocalStorage();
         setFetchStatus(status.FETCH_IDLE);
+        reduxDispatch(
+          updateFetchStatus({
+            status: autologinFetchStatus.FETCH_CLEAR
+          })
+        )
       } else {
         fetchKey(email, decryptKeyId, tempDecryptKey);
       }
     } else {
       clearLocalStorage();
       setFetchStatus(status.FETCH_IDLE);
+      reduxDispatch(
+        updateFetchStatus({
+          status: autologinFetchStatus.FETCH_CLEAR
+        })
+      )
     }
-  }, [fetchKey]);
+  }, [fetchKey, reduxDispatch]);
 
   return (
     <>

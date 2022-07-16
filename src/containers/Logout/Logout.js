@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearLocalStorage, instance } from "../../constants";
-import { updateCredential } from "../../reducers/credential";
+import { clearCredential } from "../../reducers/credential";
 
 function Logout() {
   const navigate = useNavigate();
@@ -15,10 +15,7 @@ function Logout() {
       .then((resp) => {})
       .finally(() => {
         reduxDispatch(
-          updateCredential({
-            email: null,
-            encKey: null,
-          })
+          clearCredential()
         );
         clearLocalStorage();
         navigate("/");
