@@ -44,6 +44,21 @@ export function reducer(state, action) {
         error: "",
         status: addTokenActions.ADTOKEN_INIT,
       };
+    case addTokenActions.ADTOKEN_FAILED:
+      return {
+        ...state,
+        error: action.payload,
+        status: addTokenActions.ADTOKEN_FAILED,
+      };
+    case addTokenActions.ADTOKEN_SUCCESS:
+      return {
+        ...state,
+        username: "",
+        account: "",
+        totpKey: "",
+        error: "",
+        status: addTokenActions.ADTOKEN_SUCCESS,
+      };
     default:
       throw new Error("Invalid action type");
   }

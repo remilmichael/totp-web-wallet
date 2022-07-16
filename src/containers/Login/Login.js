@@ -78,9 +78,9 @@ function Login() {
       client.step1(state.email, state.password);
       const { A, M1 } = client.step2(salt, b);
       const credential = await fetchAuthCredentials(A, M1);
-      if (credential.access_token) {
+      if (credential && credential.access_token) {
         const data = await fetchEncryptionKey();
-        if (data.encKey) {
+        if (data && data.encKey) {
           const key = decryptKey(data.encKey);
           if (key) {
             const resp = await createAutoLoginKey(key, credential.token_expiry);
