@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import React from "react";
 import { autologinFetchStatus } from "../../reducers/credential";
+import DashboardComponents from './DashboardComponents';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -17,13 +18,7 @@ function Dashboard() {
 
   return (
     <>
-      Dashboard
-      <div>
-          <Link to="/logout">Logout</Link>
-      </div>
-      <div>
-        <Link to="/addtoken">Add Token</Link>
-      </div>
+      <DashboardComponents />
     </>
   );
 }
