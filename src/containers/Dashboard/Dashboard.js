@@ -17,6 +17,7 @@ function Dashboard() {
       <div>
         Dashboard
         <Link to="/logout">Logout</Link>
+        <Link to="/addtoken">Add Token</Link>
       </div>
     </>
   );

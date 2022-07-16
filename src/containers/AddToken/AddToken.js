@@ -5,10 +5,18 @@ import { instance } from "../../constants";
 import { v4 as uuidv4} from 'uuid'
 import { useSelector } from "react-redux";
 import CryptoJs from "crypto-js";
+import { useNavigate } from "react-router-dom";
 
 function AddToken() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const credential = useSelector((state) => state.credential);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (credential.fetch && !credential.encKey) {
+      navigate("/");
+    }
+  }, [credential.encKey, navigate, credential.fetch]);
 
 
   const usernameHandler = (username) => {
