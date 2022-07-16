@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { initialState, loginActions, reducer } from "./reducer";
 import LoginForm from "./LoginForm";
 import { useDispatch, useSelector } from "react-redux";
-import { saveCredential } from "../../reducers/credential";
+import { autologinFetchStatus, saveCredential } from "../../reducers/credential";
 import { v4 as uuidv4 } from "uuid";
 
 const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
@@ -23,7 +23,7 @@ function Login() {
   const credential = useSelector((state) => state.credential);
 
   React.useEffect(() => {
-    if (credential.fetch && credential.encKey) {
+    if (credential.fetch === autologinFetchStatus.FETCH_SUCCESS && credential.encKey) {
       navigate("/dashboard");
     }
   }, [credential.encKey, navigate, credential.fetch]);
@@ -78,7 +78,7 @@ function Login() {
       client.step1(state.email, state.password);
       const { A, M1 } = client.step2(salt, b);
       const credential = await fetchAuthCredentials(A, M1);
-      if (credential && credential.access_token) {
+      if (credential &&credential.access_token) {
         const data = await fetchEncryptionKey();
         if (data && data.encKey) {
           const key = decryptKey(data.encKey);

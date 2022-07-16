@@ -4,6 +4,7 @@ import CryptoJs from "crypto-js";
 import { instance, rfc5054 } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { autologinFetchStatus } from "../../reducers/credential";
 
 export const registerStatus = {
   REGISTER_IDLE: "REGISTER_IDLE",
@@ -18,7 +19,7 @@ function Register() {
   const credential = useSelector((state) => state.credential);
 
   React.useEffect(() => {
-    if (credential.fetch && credential.encKey) {
+    if (credential.fetch === autologinFetchStatus.FETCH_SUCCESS && credential.encKey) {
       navigate("/dashboard");
     }
   }, [credential.encKey, navigate, credential.fetch]);
