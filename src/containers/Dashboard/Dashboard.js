@@ -14,9 +14,11 @@ function Dashboard() {
 
   return (
     <>
+      Dashboard
       <div>
-        Dashboard
-        <Link to="/logout">Logout</Link>
+          <Link to="/logout">Logout</Link>
+      </div>
+      <div>
         <Link to="/addtoken">Add Token</Link>
       </div>
     </>
