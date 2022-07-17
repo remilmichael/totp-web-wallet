@@ -2,6 +2,10 @@ body {
     background: #EAF3FA;
 }
 
+.cf {
+    clear: both;
+}
+
 .sign_wrap {
     background: #fff;
     border-radius: 30px;
@@ -15,17 +19,70 @@ body {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-.sign_logo,
+.add_wrap {
+    max-width: 600px;
+}
+
+.sign_wrap h2,
 .side_bx h2,
 .bx_popup h2 {
     font: 700 20px/26px 'Open Sans', sans-serif;
     margin: 10px 0 15px 0;
-    
+}
+
+.dashbord_body {
+    background: #EAF3FA;
 }
 
 .sign_logo {
     max-width: 240px;
     margin: 0 auto 15px auto;
+}
+
+p a,
+a:not([href]):not([class]) {
+    color: #233862;
+    text-decoration: underline;
+}
+
+a:not([href]):not([class]):hover,
+p a:hover {
+    color: #233862;
+    text-decoration: none;
+}
+
+a {
+    cursor: pointer;
+}
+
+.form-control {
+    font: 400 14px/20px 'Open Sans', sans-serif;
+    padding: 12px 15px;
+    border-radius: 30px;
+}
+
+.btn_theme {
+    background: #FDA428;
+    font: 600 14px/20px 'Open Sans', sans-serif;
+    color: #fff;
+    padding: 8px 30px;
+    border-radius: 30px;
+    border: none;
+}
+
+.btn_theme:hover,
+.btn_theme:focus,
+.btn_theme:active {
+    background: #6c53e0;
+    color: #fff;
+}
+
+.full_bx {
+    height: 100vh;
+    height: -webkit-fill-available;
+    max-height: 100vh;
+    overflow-x: auto;
+    overflow-y: scroll;
 }
 
 .side_bx {
@@ -70,17 +127,9 @@ body {
     border: 2px solid #6c53e0;
 }
 
-.sign_wrap h2 {
-    font: 700 20px/26px 'Open Sans', sans-serif;
-    margin: 10px 0 15px 0;
+.full_bx {
+    display: flex;
 }
-
-.form_control {
-    font: 400 14px/20px 'Open Sans', sans-serif;
-    padding: 12px 15px;
-    border-radius: 30px;
-}
-
 
 .right_bx {
     padding: 60px 0 0 350px;
@@ -127,50 +176,60 @@ body {
     text-decoration: none !important;
 }
 
-p a,
-a:not([href]):not([class]) {
-    color: #233862;
-    text-decoration: underline;
+.company_bx {
+    background: #fff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 15px 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+    max-width: 600px;
+    width: 100%;
 }
 
-a:not([href]):not([class]):hover,
-p a:hover {
-    color: #233862;
-    text-decoration: none;
+.company_bx h3 {
+    font: 700 22px/26px 'Open Sans', sans-serif;
 }
 
-a {
-    cursor: pointer;
+.company_bx .bx {
+    padding: 0 15px;
 }
 
-.cf {
-    clear: both;
+.company_bx .bx .bx_row {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
 }
 
-.btn_theme {
-    background: #FDA428;
-    font: 600 14px/20px 'Open Sans', sans-serif;
-    color: #fff;
-    padding: 8px 30px;
+.company_bx .bx .bx_row:last-child {
+    border-bottom: none;
+    padding: 10px 0 0 0;
+}
+
+.bx_popup {
+    text-align: center;
+    padding: 30px;
+}
+
+.bx_popup .number {
+    background: #E6E0FF;
+    padding: 8px 20px;
     border-radius: 30px;
-    border: none;
-    margin-top: 1rem;
+    display: inline-block;
+    font: 400 20px/24px 'Open Sans', sans-serif;
+    letter-spacing: 5px;
+    margin: 0 0 20px 0;
 }
 
-.btn_theme:hover,
-.btn_theme:focus,
-.btn_theme:active {
-    background: #6c53e0;
-    color: #fff;
+.bx_row .btn_theme {
+    float: right;
 }
 
-.alert {
-    margin-top: 1rem;
-    width: 80%;
-    font-size: 0.8rem;
+@media (max-width: 1199.98px) {
+    .right_bx {
+        flex-basis: 95%;
+    }
 }
 
-@media(max-width: 767.98px) {
+@media (max-width: 767.98px) {
     .sign_wrap {
         position: relative;
         transform: inherit;
@@ -179,12 +238,83 @@ a {
         margin: 30px 5%;
         width: 90%;
     }
-
     .sign_logo {
         width: 160px;
     }
-
     .copy {
         position: inherit;
+    }
+    p.mt-3 {
+        margin-top: 0 !important;
+    }
+    .side_bx {
+        height: inherit;
+        width: 100%;
+        position: relative;
+    }
+    .full_bx {
+        display: block;
+    }
+    .side_bx .sign_logo {
+        float: left;
+        padding: 0;
+    }
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #EAE8E8;
+        padding: 2px;
+        margin: 0;
+        float: right;
+    }
+    .side_bx .sign_logo {
+        width: 140px;
+    }
+    .side_bx h2 {
+        text-align: right !important;
+        font-size: 14px;
+        margin: 0;
+        padding: 5px 50px 0 0;
+    }
+    .logout {
+        margin: 0;
+    }
+    .right_bx {
+        padding: 50px 15px 30px 15px;
+        flex-basis: inherit;
+    }
+    .company_bx h3 {
+        font: 700 18px/22px 'Open Sans', sans-serif;
+    }
+    .company_bx {
+        padding: 15px;
+        max-width: inherit;
+    }
+    .link_bx {
+        width: 100%;
+        margin: 0;
+    }
+    .link_bx ul li {
+        width: 48%;
+        margin-right: 2%;
+        text-align: center;
+    }
+    .link_bx ul li:last-child {
+        margin-right: 0;
+    }
+    .link_bx ul li a {
+        padding: 8px;
+        display: block;
+    }
+    .logout {
+        padding: 4px 16px;
+        background-size: 20px;
+        width: 114px;
+        position: absolute;
+        top: 80px;
+        right: 20px;
+    }
+    .logout:hover {
+        background-size: 20px;
     }
 }
