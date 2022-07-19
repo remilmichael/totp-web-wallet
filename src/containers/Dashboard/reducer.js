@@ -17,6 +17,12 @@ export function reducer(state, action) {
         ...state,
         status: tokenFetchActions.TOKEN_FETCH_INIT
       };
+    case tokenFetchActions.TOKEN_FETCH_SUCCESS:
+        return {
+            ...state,
+            tokenArray: action.payload,
+            status: tokenFetchActions.TOKEN_FETCH_SUCCESS,
+        }
     default:
         throw new Error("Invalid action type!");
   }

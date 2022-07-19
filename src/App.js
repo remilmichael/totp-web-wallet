@@ -15,7 +15,11 @@ import {
   TEMP_DECRYPT_KEY,
   USERNAME,
 } from "./constants";
-import { autologinFetchStatus, updateCredential, updateFetchStatus } from "./reducers/credential";
+import {
+  autologinFetchStatus,
+  updateCredential,
+  updateFetchStatus,
+} from "./reducers/credential";
 import Spinner from "./components/Spinner";
 import NoMatchFound from "./NoMatch";
 import Logout from "./containers/Logout/Logout";
@@ -59,34 +63,33 @@ function App() {
                 })
               );
               setFetchStatus(status.FETCH_IDLE);
-              
             } else {
               // error - key tampered
               clearLocalStorage();
               setFetchStatus(status.FETCH_IDLE);
               reduxDispatch(
                 updateFetchStatus({
-                  status: autologinFetchStatus.FETCH_CLEAR
+                  status: autologinFetchStatus.FETCH_CLEAR,
                 })
-              )
+              );
             }
           } else {
             clearLocalStorage();
             setFetchStatus(status.FETCH_IDLE);
             reduxDispatch(
               updateFetchStatus({
-                status: autologinFetchStatus.FETCH_CLEAR
+                status: autologinFetchStatus.FETCH_CLEAR,
               })
-            )
+            );
           }
         })
         .catch((err) => {
           setFetchStatus(status.FETCH_IDLE);
           reduxDispatch(
             updateFetchStatus({
-              status: autologinFetchStatus.FETCH_CLEAR
+              status: autologinFetchStatus.FETCH_CLEAR,
             })
-          )
+          );
           console.log(err);
           clearLocalStorage();
         });
@@ -98,9 +101,9 @@ function App() {
     setFetchStatus(status.FETCH_RUNNING);
     reduxDispatch(
       updateFetchStatus({
-        status: autologinFetchStatus.FETCH_RUNNING
+        status: autologinFetchStatus.FETCH_RUNNING,
       })
-    )
+    );
 
     const expiry = localStorage.getItem(AUTH_TOKEN_NAME);
     const tempDecryptKey = localStorage.getItem(TEMP_DECRYPT_KEY);
@@ -114,9 +117,9 @@ function App() {
         setFetchStatus(status.FETCH_IDLE);
         reduxDispatch(
           updateFetchStatus({
-            status: autologinFetchStatus.FETCH_CLEAR
+            status: autologinFetchStatus.FETCH_CLEAR,
           })
-        )
+        );
       } else {
         fetchKey(email, decryptKeyId, tempDecryptKey);
       }
@@ -125,29 +128,26 @@ function App() {
       setFetchStatus(status.FETCH_IDLE);
       reduxDispatch(
         updateFetchStatus({
-          status: autologinFetchStatus.FETCH_CLEAR
+          status: autologinFetchStatus.FETCH_CLEAR,
         })
-      )
+      );
     }
   }, [fetchKey, reduxDispatch]);
 
   return (
     <>
-      {fetchStatus === status.FETCH_RUNNING ? (
-        <Spinner />
-      ) : (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/dashboard/" element={<Dashboard />} />
-            <Route path="/addtoken" element={<AddToken />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<NoMatchFound />} />
-          </Routes>
-        </BrowserRouter>
-      )}
+      {fetchStatus === status.FETCH_RUNNING ? <Spinner /> : null}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/dashboard/" element={<Dashboard />} />
+          <Route path="/addtoken" element={<AddToken />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NoMatchFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

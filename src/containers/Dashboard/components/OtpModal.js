@@ -1,6 +1,14 @@
 import { Modal } from "react-bootstrap";
+import { capitalizeFirstLetter } from "../../../constants";
 
 function OtpModal(props) {
+
+  const token = props.token;
+
+  if (!token) {
+    return null;
+  }
+
   return (
     <>
       <Modal
@@ -10,14 +18,14 @@ function OtpModal(props) {
         centered
       >
         <Modal.Body>
-          <div class="bx_popup">
-            <h2>Company Name</h2>
+          <div className="bx_popup">
+            <h2>{capitalizeFirstLetter(token.account)}</h2>
             <p>
-              <strong>Account 1</strong>
+              <strong>{token.username}</strong>
             </p>
-            <span class="number">1 2 3 4 5 6</span>
-            <div class="cf"></div>
-            <input type="button" value="Delete" class="btn btn_theme" />
+            <span className="number">{token.otp}</span>
+            <div className="cf"></div>
+            <input type="button" value="Delete" className="btn btn_theme" />
           </div>
         </Modal.Body>
       </Modal>
