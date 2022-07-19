@@ -61,15 +61,15 @@ function AddToken() {
 
   const encryptSecrets = () => {
     const encryptedTotpKey = CryptoJs.AES.encrypt(state.totpKey, credential.encKey);
-    const hmac = CryptoJs.HmacSHA256(
-      encryptedTotpKey.toString(),
-      credential.encKey
-    );
-    const keyWithHash = hmac.toString() + encryptedTotpKey.toString();
+    // const hmac = CryptoJs.HmacSHA256(
+    //   encryptedTotpKey.toString(),
+    //   credential.encKey
+    // );
+    // const keyWithHash = hmac.toString() + encryptedTotpKey.toString();
 
     const dataObj = {
       uuid: uuidv4(),
-      secretKey: keyWithHash,
+      secretKey: encryptedTotpKey.toString(),
       username: state.username,
       account: state.account,
     };
