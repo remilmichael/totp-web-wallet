@@ -1,10 +1,9 @@
 import React from "react";
-import BreadCrumb from "./components/BreadCrumb/BreadCrumb";
-import AboutContent from "./components/AboutContent/AboutContent";
+import FaqContent from "./components/FaqContent/FaqContent";
 import HomeFooter from "./components/HomeFooter/HomeFooter";
 import Navbar from "./components/Navbar/Navbar";
 
-function AboutUs() {
+function Faq() {
   React.useEffect(() => {
     document.body.style.backgroundColor = "#FFF";
 
@@ -16,11 +15,10 @@ function AboutUs() {
   return (
     <>
       <Navbar />
-      <BreadCrumb name="About Us" desc="About Us" />
-      <AboutContent />
+      <FaqContent />
       <HomeFooter />
     </>
   );
 }
 
-export default AboutUs;
+export default Faq;

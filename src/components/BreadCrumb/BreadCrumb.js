@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 
 function BreadCrumb(props) {
-
-  const name = { props };
+  const { name, desc } = props;
 
   return (
     <div className="top_hd">
@@ -17,7 +16,7 @@ function BreadCrumb(props) {
             </li>
           </ol>
         </nav>
-        <h1>{name}</h1>
+        <h1>{desc}</h1>
       </div>
     </div>
   );
