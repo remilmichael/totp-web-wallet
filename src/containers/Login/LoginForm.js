@@ -1,4 +1,3 @@
-import "./LoginForm.css";
 import LoginImage from "../../assets/login.svg";
 import Logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
