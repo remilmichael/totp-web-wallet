@@ -26,6 +26,7 @@ import Logout from "./containers/Logout/Logout";
 import AddToken from "./containers/AddToken/AddToken";
 import AboutUs from "./About";
 import Faq from "./Faq";
+import ContactUs from "./ContactUs";
 
 const status = {
   FETCH_IDLE: "FETCH_IDLE",
@@ -148,6 +149,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/contact" element={<ContactUs />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NoMatchFound />} />
         </Routes>
