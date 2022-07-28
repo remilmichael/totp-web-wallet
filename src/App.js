@@ -20,7 +20,7 @@ import {
   updateCredential,
   updateFetchStatus,
 } from "./reducers/credential";
-import Spinner from "./components/Spinner";
+import Spinner from "./components/Spinner/Spinner";
 import NoMatchFound from "./NoMatch";
 import Logout from "./containers/Logout/Logout";
 import AddToken from "./containers/AddToken/AddToken";

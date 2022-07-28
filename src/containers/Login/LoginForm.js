@@ -3,7 +3,7 @@ import "./LoginForm.css";
 import LoginImage from "../../assets/login.svg";
 import Logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/Spinner/Spinner";
 import { loginActions } from "./reducer";
 
 function LoginForm(props) {

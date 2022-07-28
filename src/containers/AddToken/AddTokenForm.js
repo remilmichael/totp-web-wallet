@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/Spinner/Spinner";
 import { addTokenActions } from "./reducer";
 
 function AddTokenForm(props) {

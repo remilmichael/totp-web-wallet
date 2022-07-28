@@ -3,7 +3,7 @@ import RegisterImage from "../../assets/login.svg";
 import Logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { registerStatus } from "./Register";
-import Spinner from '../../components/Spinner';
+import Spinner from '../../components/Spinner/Spinner';
 
 function RegisterForm(props) {
   // destructure
