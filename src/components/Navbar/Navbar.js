@@ -1,10 +1,12 @@
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 
 function Navbar(props) {
   const location = useLocation();
-
   const path = location.pathname;
+
+  const [offCanvas, setOffCanvas] = React.useState(false);
 
   return (
     <header className="header">
@@ -25,14 +27,16 @@ function Navbar(props) {
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar"
                 aria-controls="offcanvasNavbar"
+                onClick={() => setOffCanvas(!offCanvas)}
               >
                 <span className="navbar-toggler-icon"></span>
               </button>
               <div
-                className="offcanvas offcanvas-end"
+                className={offCanvas ? 'offcanvas offcanvas-end show' : 'offcanvas offcanvas-end'}
                 tabIndex="-1"
                 id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel"
+                {...offCanvas ? {"aria-modal": true, "role": "dialog"} : null}
               >
                 <div className="offcanvas-header">
                   <button
@@ -40,6 +44,7 @@ function Navbar(props) {
                     className="btn-close"
                     data-bs-dismiss="offcanvas"
                     aria-label="Close"
+                    onClick={() => setOffCanvas(false)}
                   ></button>
                 </div>
                 <div className="d-flex menu_links">
