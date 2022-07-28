@@ -1,5 +1,5 @@
 import React from "react";
-import AboutBreadCrumb from "./components/AboutComponents/AboutBreadCrumb";
+import BreadCrumb from "./components/BreadCrumb/BreadCrumb";
 import AboutContent from "./components/AboutComponents/AboutContent";
 import HomeFooter from "./components/HomeFooter/HomeFooter";
 import Navbar from "./components/Navbar/Navbar";
@@ -16,7 +16,7 @@ function AboutUs() {
   return (
     <>
       <Navbar />
-      <AboutBreadCrumb />
+      <BreadCrumb name="About Us" />
       <AboutContent />
       <HomeFooter />
     </>

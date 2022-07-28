@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
-function AboutBreadCrumb() {
+function BreadCrumb(props) {
+
+  const name = { props };
+
   return (
     <div className="top_hd">
       <div className="container">
@@ -10,14 +13,14 @@ function AboutBreadCrumb() {
               <Link to="/">Home</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              About Us
+              {name}
             </li>
           </ol>
         </nav>
-        <h1>About Us</h1>
+        <h1>{name}</h1>
       </div>
     </div>
   );
 }
 
-export default AboutBreadCrumb;
+export default BreadCrumb;
