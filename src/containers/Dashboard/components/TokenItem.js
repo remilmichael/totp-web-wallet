@@ -24,8 +24,8 @@ function TokenItem(props) {
     ).toString(CryptoJs.enc.Utf8);
     
     let totp = new OTPAuth.TOTP({
-      issuer: 'ACME',
-      label: 'AzureDiamond',
+      issuer: tokens[index].account,
+      label: tokens[index].username,
       algorithm: 'SHA1',
       digits: 6,
       period: 30,
@@ -35,7 +35,7 @@ function TokenItem(props) {
     const obj = {
       account: tokens[index].account,
       username: tokens[index].username,
-      otp: totp.generate()
+      otp: totp
     }
     setShow(true);
     setTokenItem(obj);

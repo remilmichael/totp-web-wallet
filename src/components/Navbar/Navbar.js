@@ -1,0 +1,124 @@
+import { Link, useLocation } from "react-router-dom";
+import Logo from "../../assets/logo.svg";
+
+function Navbar(props) {
+  const location = useLocation();
+
+  const path = location.pathname;
+
+  return (
+    <header className="header">
+      <div className="container">
+        <div className="d-flex bd-highlight">
+          <div className="me-auto bd-highlight align-self-center">
+            <div className="logo">
+              <a href="#/">
+                <img src={Logo} alt="C-Auth Logo" />
+              </a>
+            </div>
+          </div>
+          <div className="bd-highlight">
+            <nav className="navbar navbar-expand-lg bd-highlight">
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+              <div
+                className="offcanvas offcanvas-end"
+                tabIndex="-1"
+                id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel"
+              >
+                <div className="offcanvas-header">
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="d-flex menu_links">
+                  <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                      <Link
+                        to="/"
+                        aria-current="page"
+                        className={
+                          path === "/" ? "nav-link active" : "nav-link"
+                        }
+                      >
+                        Home
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/about"
+                        aria-current="page"
+                        className={
+                          path === "/about" ? "nav-link active" : "nav-link"
+                        }
+                      >
+                        About
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        to="/faq"
+                        aria-current="page"
+                        className={
+                          path === "/faq" ? "nav-link active" : "nav-link"
+                        }
+                      >
+                        FAQ's
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/contact"
+                        aria-current="page"
+                        className={
+                          path === "/contact" ? "nav-link active" : "nav-link"
+                        }
+                      >
+                        Contact Us
+                      </Link>
+                    </li>
+                  </ul>
+                  <div className="right_nav align-self-center">
+                    <ul>
+                      <li>
+                        <Link
+                          to="/login"
+                          aria-current="page"
+                          className="nav-link link_right"
+                        >
+                          Sign in
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/register"
+                          aria-current="page"
+                          className="nav-link btn btn_theme"
+                        >
+                          Create Account
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default Navbar;
