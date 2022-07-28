@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import { instance, rfc5054 } from "../../constants";
 import React from "react";
 import CryptoJs from "crypto-js";

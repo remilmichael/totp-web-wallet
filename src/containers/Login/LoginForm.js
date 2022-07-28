@@ -1,10 +1,10 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginForm.css";
 import LoginImage from "../../assets/login.svg";
 import Logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import { loginActions } from "./reducer";
+import React from "react";
 
 function LoginForm(props) {
   const {

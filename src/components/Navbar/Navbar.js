@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 
-function Navbar(props) {
+function Navbar() {
   const location = useLocation();
   const path = location.pathname;
 
@@ -14,9 +14,9 @@ function Navbar(props) {
         <div className="d-flex bd-highlight">
           <div className="me-auto bd-highlight align-self-center">
             <div className="logo">
-              <a href="#/">
+              <Link to="/">
                 <img src={Logo} alt="C-Auth Logo" />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="bd-highlight">
