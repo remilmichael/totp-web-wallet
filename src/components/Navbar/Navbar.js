@@ -118,6 +118,7 @@ function Navbar(props) {
                   </div>
                 </div>
               </div>
+              {offCanvas ? <div className="offcanvas-backdrop fade show"></div> : null}
             </nav>
           </div>
         </div>
