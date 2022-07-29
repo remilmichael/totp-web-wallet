@@ -392,6 +392,16 @@ a {
   flex: 1 1 auto
 }
 
+.message_display {
+  width: 50%;
+  padding: 1rem;
+  background-color: #e8e3ff;
+  margin: auto;
+  color: #233862;
+  font-weight: bold;
+  text-align: center;
+}
+
 @media (max-width:991.98px) {
   .padding {
       padding: 1.5rem
