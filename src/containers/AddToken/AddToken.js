@@ -2,11 +2,12 @@ import React from "react";
 import AddTokenForm from "./AddTokenForm";
 import { reducer, initialState, addTokenActions } from "./reducer";
 import { instance } from "../../constants";
-import { v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import CryptoJs from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { autologinFetchStatus } from "../../reducers/credential";
+import { TOTP } from "otpauth";
 
 function AddToken() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -14,13 +15,15 @@ function AddToken() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (credential.fetch === autologinFetchStatus.FETCH_SUCCESS && !credential.encKey) {
+    if (
+      credential.fetch === autologinFetchStatus.FETCH_SUCCESS &&
+      !credential.encKey
+    ) {
       navigate("/");
     } else if (credential.fetch === autologinFetchStatus.FETCH_CLEAR) {
       navigate("/");
     }
   }, [credential.encKey, navigate, credential.fetch]);
-
 
   const usernameHandler = (username) => {
     dispatch({ type: "set_username", payload: username });
@@ -34,17 +37,16 @@ function AddToken() {
     dispatch({ type: "set_totpkey", payload: secretKey });
   };
 
-  const addTokenHandler = async() => {
+  const addTokenHandler = async () => {
     const validationError = validateInputs();
     if (validationError) {
       dispatch({ type: "error", payload: validationError });
     } else {
       dispatch({ type: addTokenActions.ADTOKEN_INIT });
-      
+
       const encryptedDataObj = encryptSecrets();
 
       await postSecretKeys(encryptedDataObj);
-
     }
   };
 
@@ -55,12 +57,29 @@ function AddToken() {
       return "Account can't be empty. Type something that resembles the application where the OTP will be used.";
     } else if (!state.totpKey) {
       return "TOTP Secret key can't be empty";
+    } else {
+      try {
+        const totp = new TOTP({
+          issuer: state.account,
+          label: state.username,
+          algorithm: "SHA1",
+          digits: 6,
+          period: 30,
+          secret: state.totpKey,
+        });
+        totp.generate();
+      } catch (err) {
+        return "Invalid TOTP seed";
+      }
     }
     return null;
   };
 
   const encryptSecrets = () => {
-    const encryptedTotpKey = CryptoJs.AES.encrypt(state.totpKey, credential.encKey);
+    const encryptedTotpKey = CryptoJs.AES.encrypt(
+      state.totpKey,
+      credential.encKey
+    );
     // const hmac = CryptoJs.HmacSHA256(
     //   encryptedTotpKey.toString(),
     //   credential.encKey
@@ -75,20 +94,27 @@ function AddToken() {
     };
 
     return dataObj;
-  }
+  };
 
   const postSecretKeys = async (data) => {
-    return instance.post("/secret/add", data, { withCredentials: true })
-        .then(resp => {
-          dispatch({ type: addTokenActions.ADTOKEN_SUCCESS })
-        })
-        .catch(err => {
-          if (err.response && err.response.data && err.response.data.message) {
-            dispatch({ type: addTokenActions.ADTOKEN_FAILED, payload: err.response.data.message })
-          } else {
-            dispatch({ type: addTokenActions.ADTOKEN_FAILED, payload: 'Something went wrong!' })
-          }
-        })
+    return instance
+      .post("/secret/add", data, { withCredentials: true })
+      .then((resp) => {
+        dispatch({ type: addTokenActions.ADTOKEN_SUCCESS });
+      })
+      .catch((err) => {
+        if (err.response && err.response.data && err.response.data.message) {
+          dispatch({
+            type: addTokenActions.ADTOKEN_FAILED,
+            payload: err.response.data.message,
+          });
+        } else {
+          dispatch({
+            type: addTokenActions.ADTOKEN_FAILED,
+            payload: "Something went wrong!",
+          });
+        }
+      });
   };
 
   return (
