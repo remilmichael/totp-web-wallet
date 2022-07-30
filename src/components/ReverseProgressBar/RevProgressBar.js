@@ -1,18 +1,25 @@
 import React from "react";
-import classes from './RevProgressbar.module.css';
 
 function RevProgressBar(props) {
+  const secondsNow = new Date().getSeconds();
+  const refreshTime = 30 - (secondsNow % 30);
+  const [counter, setCounter] = React.useState(refreshTime);
 
-    // defaulted to 30s
-    const animationDuration = props.animationDuration ? props.animationDuration : '30s';
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (counter === 1) {
+        setCounter(30);
+      } else {
+        setCounter(counter - 1);
+      }
+    }, 1000);
 
-    return (
-        <div className={classes.outer}>
-            <div className={classes.inner} style={{ animationPlayState: 'running', animationDuration: animationDuration }}>
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [counter]);
 
-            </div>
-        </div>
-    )
+  return <div style={{color: '#233862', fontWeight: 'bold'}}>Refreshes in: {counter} seconds</div>;
 }
 
 export default RevProgressBar;

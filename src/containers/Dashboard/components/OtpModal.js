@@ -1,21 +1,36 @@
+import React from "react";
 import { Modal } from "react-bootstrap";
 import RevProgressBar from "../../../components/ReverseProgressBar/RevProgressBar";
 import { capitalizeFirstLetter } from "../../../constants";
 
 function OtpModal(props) {
+  const { credential } = props;
+  const { otpObj, account, username } = credential;
+  const [otp, setOtp] = React.useState("");
+  const intervalRef = React.useRef(null);
 
-  const token = props.token;
-  const secondsNow = new Date().getSeconds();
-  let refreshTime = 30 - (secondsNow % 30);
-  
+  const runInterval = React.useCallback(() => {
+    intervalRef.current = setInterval(() => {
+      setOtp(otpObj.generate());
+    }, 30000)
+  }, [otpObj]);
 
-  console.log("render")
+  React.useEffect(() => {
+    const secondsNow = new Date().getSeconds();
+    const refreshTime = 30 - (secondsNow % 30);
+    const timeOutTimer = setTimeout(() => {
+      setOtp(otpObj.generate());
+      runInterval();
+    }, refreshTime * 1000);
 
-  setTimeout(() => {
-    console.log(new Date().getTime())
-  }, refreshTime * 1000);
+    setOtp(otpObj.generate());
+    return () => {
+      clearTimeout(timeOutTimer);
+      clearTimeout(intervalRef.current);
+    };
+  }, [otpObj, runInterval]);
 
-  if (!token) {
+  if (!otpObj) {
     return null;
   }
 
@@ -29,15 +44,15 @@ function OtpModal(props) {
       >
         <Modal.Body>
           <div className="bx_popup">
-            <h2>{capitalizeFirstLetter(token.account)}</h2>
+            <h2>{capitalizeFirstLetter(account)}</h2>
             <p>
-              <strong>{token.username}</strong>
+              <strong>{username}</strong>
             </p>
-            <span className="number"></span>
+            <span className="number">{otp}</span>
             <div className="cf"></div>
             <input type="button" value="Delete" className="btn btn_theme" />
           </div>
-          <RevProgressBar animationDuration={refreshTime} />
+          <RevProgressBar />
         </Modal.Body>
       </Modal>
     </>
