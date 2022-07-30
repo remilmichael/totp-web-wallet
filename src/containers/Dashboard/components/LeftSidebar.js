@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../../assets/logo.svg";
 import UserLogo from "../../../assets/user.svg";
 
-function LeftSidebar() {
+function LeftSidebar({ username }) {
 
   const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ function LeftSidebar() {
       <figure className="avatar">
         <img src={UserLogo} alt="" />
       </figure>
-      <h2 className="text-center">User Name</h2>
+      <h2 className="text-center">{username}</h2>
       <input
         type="submit"
         value="Logout"

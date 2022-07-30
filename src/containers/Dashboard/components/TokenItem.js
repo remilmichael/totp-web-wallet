@@ -5,13 +5,17 @@ import CryptoJs from "crypto-js";
 import * as OTPAuth from "otpauth";
 
 function TokenItem(props) {
-  const { tokens, decryptKey } = props;
+  const { tokens, decryptKey, deleteTokenHandler } = props;
 
   const [show, setShow] = React.useState(false);
 
   const [tokenUi, setTokenUi] = React.useState([]);
 
   const [tokenItem, setTokenItem] = React.useState(null);
+
+  const deleteBtnHandler = () => {
+      deleteTokenHandler(tokenItem);
+  }
 
   const viewOtpHandler = React.useCallback(
     (index) => {
@@ -33,6 +37,7 @@ function TokenItem(props) {
           secret: decryptedSecret,
         });
         const obj = {
+          uuid: tokens[index].uuid,
           account: tokens[index].account,
           username: tokens[index].username,
           otpObj: totp,
@@ -91,7 +96,14 @@ function TokenItem(props) {
   return (
     <>
       {tokenUi}
-      {tokenItem && show ? <OtpModal show={show} onHide={() => setShow(show => !show)} credential={tokenItem} /> : null}
+      {tokenItem && show ? (
+        <OtpModal
+          show={show}
+          onHide={() => setShow((show) => !show)}
+          credential={tokenItem}
+          deleteTokenHandler={deleteBtnHandler}
+        />
+      ) : null}
     </>
   );
 }

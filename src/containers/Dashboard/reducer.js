@@ -8,6 +8,7 @@ export const tokenFetchActions = {
 export const initialState = {
   tokenArray: [],
   status: tokenFetchActions.TOKEN_FETCH_IDLE,
+  error: null,
 };
 
 export function reducer(state, action) {
@@ -23,6 +24,12 @@ export function reducer(state, action) {
             tokenArray: action.payload,
             status: tokenFetchActions.TOKEN_FETCH_SUCCESS,
         }
+    case tokenFetchActions.TOKEN_FETCH_FAILED:
+      return {
+        ...state,
+        error: action.payload,
+        status: tokenFetchActions.TOKEN_FETCH_FAILED
+      }
     default:
         throw new Error("Invalid action type!");
   }
