@@ -409,6 +409,34 @@ a {
   margin-bottom: 1rem;
 }
 
+.chg_password_input {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.chg_pass_msg {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.blank_message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  width: max-content;
+  color: #233862;
+}
+
+.blank_message p:nth-child(2) {
+  font-size: 1rem;
+  font-weight: 100;
+}
+
 @media (max-width:991.98px) {
   .padding {
       padding: 1.5rem
@@ -418,6 +446,10 @@ a {
 @media (max-width:767.98px) {
   .padding {
       padding: 1rem
+  }
+
+  .blank_message {
+    transform: translate(-50%, -50%);
   }
 }
 

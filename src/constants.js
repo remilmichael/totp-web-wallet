@@ -1,4 +1,5 @@
 import axios from "axios";
+import CryptoJs from "crypto-js";
 
 export const API_URL = (() => {
   if (process.env.NODE_ENV === "production") {
@@ -23,6 +24,7 @@ export const AUTH_TOKEN_NAME = "authTokenValidity";
 export const TEMP_DECRYPT_KEY = "tempDecryptKey";
 export const DECRYPT_KEY_ID = "decryptKeyId";
 export const USERNAME = "email";
+export const CHANGE_PASSWORD_MESSAGE = "passwordChange";
 
 export function clearLocalStorage() {
   localStorage.removeItem(AUTH_TOKEN_NAME);
@@ -36,3 +38,39 @@ export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   } else return string;
 }
+
+export const generateCredentials = (username, password) => {
+
+  if (!username || !password) {
+    throw new Error('Require username and password');
+  }
+
+  const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
+    rfc5054.N_base10,
+    rfc5054.g_base10,
+    rfc5054.k_base16
+  );
+
+  const salt = CryptoJs.lib.WordArray.random(128 / 8);
+  const key256Bits = CryptoJs.PBKDF2(
+    username + password + new Date().getTime(),
+    salt,
+    {
+      keySize: 256 / 32,
+    }
+  );
+  const encryptedKey = CryptoJs.AES.encrypt(key256Bits.toString(), password);
+  const hmac = CryptoJs.HmacSHA256(encryptedKey.toString(), username + password); // add salt later
+  const finalKey = hmac.toString() + encryptedKey.toString();
+
+  const client = new SRP6JavascriptClientSession();
+  const saltForVerifier = client.generateRandomSalt();
+  const verifier = client.generateVerifier(saltForVerifier, username, password);
+
+  return {
+    email: username,
+    salt: saltForVerifier,
+    verifier,
+    encKey: finalKey,
+  };
+};

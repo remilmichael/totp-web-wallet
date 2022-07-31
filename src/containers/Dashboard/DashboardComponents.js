@@ -4,7 +4,7 @@ import SmallSpinner from "../../components/SmallSpinner/SmallSpinner";
 import { instance } from "../../constants";
 import LeftSidebar from "./components/LeftSidebar";
 import TokenItem from "./components/TokenItem";
-import TopNavbar from "./components/TopNavbar";
+import TopNavbar from "./components/DashboadNavbar";
 import { initialState, reducer, tokenFetchActions } from "./reducer";
 
 function DashboardComponents() {
@@ -14,7 +14,6 @@ function DashboardComponents() {
   const startFetchingTokens = React.useCallback(async () => {
     try {
       const data = await fetchTokens();
-      console.log("success")
       dispatch({ type: tokenFetchActions.TOKEN_FETCH_SUCCESS, payload: data });
     } catch(err) {
       dispatch({

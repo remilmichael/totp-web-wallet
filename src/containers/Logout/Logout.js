@@ -8,6 +8,8 @@ function Logout() {
   const navigate = useNavigate();
   const reduxDispatch = useDispatch();
   const credential = useSelector((state) => state.credential);
+  
+  const queryParamRef = React.useRef(new URLSearchParams(window.location.search));
 
   const clearCookie = React.useCallback(async () => {
     return instance
@@ -18,7 +20,11 @@ function Logout() {
           clearCredential()
         );
         clearLocalStorage();
-        navigate("/");
+        if (queryParamRef.current.get("redirect") === "login") {
+          navigate("/login");
+        } else {
+          navigate("/");
+        }
       });
   }, [navigate, reduxDispatch]);
 

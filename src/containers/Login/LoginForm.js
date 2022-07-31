@@ -4,8 +4,20 @@ import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import { loginActions } from "./reducer";
 import React from "react";
+import { Alert } from "react-bootstrap";
+import { CHANGE_PASSWORD_MESSAGE } from "../../constants";
 
 function LoginForm(props) {
+  const [message, setMessage] = React.useState(null);
+
+  React.useEffect(() => {
+    const changePassMsg = localStorage.getItem(CHANGE_PASSWORD_MESSAGE);
+    if (changePassMsg) {
+      localStorage.removeItem(CHANGE_PASSWORD_MESSAGE);
+      setMessage(changePassMsg);
+    }
+  }, []);
+
   const {
     emailInputHandler,
     passwordInputHandler,
@@ -66,6 +78,11 @@ function LoginForm(props) {
                   className="btn btn_theme"
                   onClick={(e) => submitForm(e)}
                 />
+                {message ? (
+                  <Alert variant="success" className="chg_pass_msg">
+                    {message}
+                  </Alert>
+                ) : null}
                 <hr />
                 <p className="text-right mb-0">
                   Don't have an account? <Link to="/register">Register</Link>

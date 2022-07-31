@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Form from "./RegisterForm";
-import CryptoJs from "crypto-js";
-import { instance, rfc5054 } from "../../constants";
+import { instance, generateCredentials } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { autologinFetchStatus } from "../../reducers/credential";
@@ -23,12 +22,6 @@ function Register() {
       navigate("/dashboard");
     }
   }, [credential.encKey, navigate, credential.fetch]);
-
-  const SRP6JavascriptClientSession = require("thinbus-srp/browser")(
-    rfc5054.N_base10,
-    rfc5054.g_base10,
-    rfc5054.k_base16
-  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,7 +64,7 @@ function Register() {
         setError("Email already exists");
         setStatus(registerStatus.REGISTER_FAILED);
       } else {
-        const credentialsObj = generateCredentials();
+        const credentialsObj = generateCredentials(email, password);
         instance
           .post(`/register`, credentialsObj)
           .then((response) => {
@@ -94,30 +87,7 @@ function Register() {
     }
   };
 
-  const generateCredentials = () => {
-    const salt = CryptoJs.lib.WordArray.random(128 / 8);
-    const key256Bits = CryptoJs.PBKDF2(
-      email + password + new Date().getTime(),
-      salt,
-      {
-        keySize: 256 / 32,
-      }
-    );
-    const encryptedKey = CryptoJs.AES.encrypt(key256Bits.toString(), password);
-    const hmac = CryptoJs.HmacSHA256(encryptedKey.toString(), email + password); // add salt later
-    const finalKey = hmac.toString() + encryptedKey.toString();
-
-    const client = new SRP6JavascriptClientSession();
-    const saltForVerifier = client.generateRandomSalt();
-    const verifier = client.generateVerifier(saltForVerifier, email, password);
-
-    return {
-      email,
-      salt: saltForVerifier,
-      verifier,
-      encKey: finalKey,
-    };
-  };
+  
 
   return (
     <Form

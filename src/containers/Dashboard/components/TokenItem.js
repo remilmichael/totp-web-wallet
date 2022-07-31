@@ -14,8 +14,8 @@ function TokenItem(props) {
   const [tokenItem, setTokenItem] = React.useState(null);
 
   const deleteBtnHandler = () => {
-      deleteTokenHandler(tokenItem);
-  }
+    deleteTokenHandler(tokenItem);
+  };
 
   const viewOtpHandler = React.useCallback(
     (index) => {
@@ -53,7 +53,7 @@ function TokenItem(props) {
   );
 
   const createUiElements = React.useCallback(() => {
-    if (tokenUi.length === 0) {
+    if (tokens.length > 0 && tokenUi.length === 0) {
       return tokens.map((token, index) => {
         return (
           <div className="company_bx" key={index}>
@@ -90,7 +90,12 @@ function TokenItem(props) {
   }, [createUiElements]);
 
   if (tokens.length === 0) {
-    return null;
+    return (
+      <div className="blank_message">
+        <p>Nothing to display here</p>
+        <p>Add a token to view OTP</p>
+      </div>
+    );
   }
 
   return (
