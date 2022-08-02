@@ -54,7 +54,8 @@ function ContactUs() {
           setSpinner(false);
         })
     } else {
-      setOutput("All fields are required!!!")
+      setOutput("All fields are required")
+      setSpinner(false);
     }
   };
 
