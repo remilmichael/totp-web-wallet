@@ -1,11 +1,14 @@
 import React from "react";
 import RegisterImage from "../../assets/login.svg";
 import Logo from "../../assets/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerStatus } from "./Register";
 import Spinner from '../../components/Spinner/Spinner';
 
 function RegisterForm(props) {
+
+  const navigate = useNavigate();
+
   // destructure
   const {
     emailInputHandler,
@@ -83,6 +86,12 @@ function RegisterForm(props) {
                   value="Register"
                   className="btn btn_theme"
                   onClick={(e) => submitForm(e)}
+                />
+                <input
+                  type="button"
+                  value="Cancel"
+                  className="btn btn_theme back_btn"
+                  onClick={() => navigate(-1)}
                 />
                 <hr />
                 <p className="text-right mb-0">

@@ -1,6 +1,6 @@
 import LoginImage from "../../assets/login.svg";
 import Logo from "../../assets/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import { loginActions } from "./reducer";
 import React from "react";
@@ -9,6 +9,7 @@ import { CHANGE_PASSWORD_MESSAGE } from "../../constants";
 
 function LoginForm(props) {
   const [message, setMessage] = React.useState(null);
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     const changePassMsg = localStorage.getItem(CHANGE_PASSWORD_MESSAGE);
@@ -78,6 +79,13 @@ function LoginForm(props) {
                   className="btn btn_theme"
                   onClick={(e) => submitForm(e)}
                 />
+                <input
+                  type="button"
+                  value="Cancel"
+                  className="btn btn_theme back_btn"
+                  onClick={() => navigate(-1)}
+                />
+
                 {message ? (
                   <Alert variant="success" className="chg_pass_msg">
                     {message}

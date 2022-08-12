@@ -432,6 +432,11 @@ a {
   color: #233862;
 }
 
+.back_btn {
+  margin-left: 1rem;
+}
+
+
 .blank_message p:nth-child(2) {
   font-size: 1rem;
   font-weight: 100;
